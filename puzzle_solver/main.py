@@ -2,7 +2,7 @@ import cv2 as cv
 import os
 import numpy as np
 
-FRAME_RATIO_CONSTANT = 0.33
+FRAME_RATIO_CONSTANT = 0.3
 
 #default camera capture
 capture = cv.VideoCapture(0)
@@ -30,7 +30,7 @@ while True:
 
     font = cv.FONT_HERSHEY_SIMPLEX
     cv.putText(frame,
-               f'CAPTURE EACH SIDE OF THE CUBE. CURRENT PICTURE: {image_count}',
+               f"ALIGN CUBE FACE IN OUTLINEPRESS 's' KEY TO CAPTURE CUBE FACE. CURRENT PICTURE: {image_count}",
                (50, 50),
                font,
                1,
@@ -38,9 +38,16 @@ while True:
                2,
                cv.LINE_4,)
     
+    #draw 3x3 cube lines into frame screen
     cv.rectangle(frame, (x, y), (x + square_width, y + square_height), (255, 0, 0), 2)
+    cv.line(frame, (x + int(square_width / 3), y), (x + int(square_width / 3), y + square_height), (255, 0, 0), 2)
+    cv.line(frame, (x + int(2 * square_width / 3), y), (x + int(2* square_width / 3), y + square_height), (255, 0, 0), 2)
+    cv.line(frame, (x, y + int(square_height / 3)), (x + square_width, y + int(square_height / 3)), (255, 0, 0), 2)
+    cv.line(frame, (x, y + int(2 * square_height / 3)), (x + square_width, y + int(2 * square_height / 3)), (255, 0, 0), 2)
+
     cv.imshow("Square shape frame", frame)
 
+    #key directions to quit or save cube image file to cube images folder 
     key = cv.waitKey(1) & 0xFF
     if key == ord('s'):
         image_name = f"captured_image_{image_count}.jpg"
