@@ -10,6 +10,8 @@ This project's goal is to utilize OpenCV to capture input about our Rubik's cube
 I encourage you to read more about IDA* here: [Finding Optimal Solutions to Rubik's Cube
 Using Pattern Databases ](https://www.cs.princeton.edu/courses/archive/fall06/cos402/papers/korfrubik.pdf)
 
+![me](https://github.com/calebgetahun/puzzle-solver/blob/main/rubiks-cube-gif.gif)
+
 # Installation
 1. Clone the repository:
    ```bash
