@@ -47,7 +47,6 @@ while True:
 
         cube_folder = os.path.join(os.path.dirname(__file__), "assets/cube_images")
         os.makedirs(cube_folder, exist_ok=True)
-
         cv.imwrite(os.path.join(cube_folder, image_name), square_frame)
         print(f"image saved as {image_name}")
         image_count += 1
