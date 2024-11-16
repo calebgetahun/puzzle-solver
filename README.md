@@ -30,4 +30,5 @@ Using Pattern Databases ](https://www.cs.princeton.edu/courses/archive/fall06/co
 3. Follow instructions to take photos of each side
 4. Solution time!!
 # Expansions
-Coming soon !
+Note this repository **is** a work in progress\
+Please let me know if you have any suggestions/ways the project can be improved!

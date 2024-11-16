@@ -3,45 +3,31 @@ import numpy as np
 import os
 import constants
 
-#Image processing
-for file in os.listdir(constants.CUBE_FOLDER):
-    if file.endswith(("jpg", "png")):
-        file_path = os.path.join(constants.CUBE_FOLDER, file)
-        image = cv.imread(file_path)
+def extract_hsv_from_cubies():
+    #Process each cube face in order captured. Current number of faces: 1
+    for file in os.listdir(constants.CUBE_FOLDER):
+        if file.endswith(("jpg", "png")):
+            file_path = os.path.join(constants.CUBE_FOLDER, file)
+            image = cv.imread(file_path)
 
-        #read image size (should be square based on previous calculations)
-        image_size = image.shape[0]
-        
-        #read cubies from left to right, top to bottom. Start from 1/6, 3/6, 5/6 to read color (BGR) in the middle of each cubie
-        center_cubie_pos = int(image_size / 6)
-        cubies = []
+            #read image size (should be square based on previous calculations)
+            image_size = image.shape[0]
+            
+            #read cubies from left to right, top to bottom. Start from 1/6, 3/6, 5/6 to read color (BGR) in the middle of each cubie
+            center_cubie_pos = int(image_size / 6)
+            hsv_cubies = []
 
-        #top row of cubies
-        color_one = image[center_cubie_pos, center_cubie_pos]
-        color_two = image[center_cubie_pos, center_cubie_pos * 3]
-        color_three = image[center_cubie_pos, center_cubie_pos * 5]
+            #positioning on cube face relative to center_cube_pos to determine center of each cubie
+            face_pos = (1, 3, 5)
 
-        cubies.append(color_one)
-        cubies.append(color_two)
-        cubies.append(color_three)
+            for row in face_pos:
+                curr_row = []
+                for col in face_pos:
+                    curr_pixel = image[center_cubie_pos * row, center_cubie_pos * col]
+                    curr_hsv = cv.cvtColor(np.uint8([[curr_pixel]]), cv.COLOR_BGR2HSV)
+                    curr_row.append(curr_hsv[0][0].tolist())
 
-        #middle row of cubies
-        color_four = image[center_cubie_pos * 3, center_cubie_pos]
-        color_five = image[center_cubie_pos * 3, center_cubie_pos * 3]
-        color_six = image[center_cubie_pos * 3, center_cubie_pos * 5]
-
-        cubies.append(color_four)
-        cubies.append(color_five)
-        cubies.append(color_six)
-
-        #bottome row of cubies
-        color_seven = image[center_cubie_pos * 5, center_cubie_pos]
-        color_eight = image[center_cubie_pos * 5, center_cubie_pos * 3]
-        color_nine = image[center_cubie_pos * 5, center_cubie_pos * 5]
-
-        cubies.append(color_seven)
-        cubies.append(color_eight)
-        cubies.append(color_nine)
-
-        for cubie in cubies:
-            print(cubie)
+                hsv_cubies.append(curr_row)
+            
+            for cubie_row in hsv_cubies:
+                print(cubie_row)
