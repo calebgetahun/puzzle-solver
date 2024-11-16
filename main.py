@@ -30,7 +30,7 @@ def main():
 
         font = cv.FONT_HERSHEY_SIMPLEX
         cv.putText(frame,
-                f"ALIGN CUBE FACE IN OUTLINEPRESS 's' KEY TO CAPTURE CUBE FACE. CURRENT PICTURE: {image_count}",
+                f"ALIGN CUBE FACE IN OUTLINE. PRESS 's' TO CAPTURE. CURRENT FACE: {image_count}",
                 (50, 50),
                 font,
                 1,

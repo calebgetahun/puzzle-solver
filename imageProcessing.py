@@ -31,3 +31,6 @@ def extract_hsv_from_cubies():
             
             for cubie_row in hsv_cubies:
                 print(cubie_row)
+
+
+extract_hsv_from_cubies()
