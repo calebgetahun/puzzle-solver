@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 import os
-from src.constants import CUBE_FACE_POSITIONING, CUBE_FOLDER
+from .constants import CUBE_FACE_POSITIONING, CUBE_FOLDER, COLOR_MAP
 
 def extract_hsv_from_cubies(image) -> list:
     #read image size (should be square based on previous calculations)
@@ -36,7 +36,18 @@ def process_image_files():
             full_cube_hsv.append(hsv_face)
             #positioning on cube face relative to center_cube_pos to determine center of each cubie
     
-    for face in full_cube_hsv:
-        print(face)
+    # for face in full_cube_hsv:
+    #     print(face)
     
     return full_cube_hsv
+
+def determine_color_of_cubie(hsv_value) -> str:
+    for color, (lower, upper) in COLOR_MAP.items():
+        lower = np.array(lower)
+        upper = np.array(upper)
+        if (lower <= hsv_value).all() and (upper >= hsv_value).all():
+            return color
+        
+    return "unknown"
+
+process_image_files()

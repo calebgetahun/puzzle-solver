@@ -2,7 +2,7 @@ import pytest
 import os
 import sys
 import cv2 as cv
-from src.image_processing import extract_hsv_from_cubies
+from src.image_processing import extract_hsv_from_cubies, determine_color_of_cubie
 
 # Add the src directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))

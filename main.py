@@ -2,6 +2,7 @@ import cv2 as cv
 import os
 import numpy as np
 from src.constants import FRAME_RATIO_CONSTANT, CUBE_FOLDER
+from src import image_processing
 
 def main():
     #default camera capture
@@ -63,5 +64,23 @@ def main():
     capture.release()
     cv.destroyAllWindows()
 
+    cube = image_processing.process_image_files()
+    cube_colors = []
+    for face in cube:
+        color_f = []
+        for row in range(len(face)):
+            color_r = []
+            for col in range(len(face[0])):
+                cubie_c = image_processing.determine_color_of_cubie(face[row][col])
+                color_r.append(cubie_c)
+            color_f.append(color_r)
+        cube_colors.append(color_f)
+
+    ##cube colors for each face
+    for i in range (len(cube_colors)):
+        print(f"face {i}")
+        for row in cube_colors[i]:
+            print(row)
+    
 if __name__ == "__main__":
     main()
