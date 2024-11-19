@@ -1,7 +1,7 @@
 import cv2 as cv
 import os
 import numpy as np
-import constants
+from src.constants import FRAME_RATIO_CONSTANT, CUBE_FOLDER
 
 def main():
     #default camera capture
@@ -19,8 +19,8 @@ def main():
         frame_ratio = frame_height/frame_width
 
         #Using the ratio of camera width to height, determine a square area of the screen to capture the cube details
-        square_height = int(frame_height * constants.FRAME_RATIO_CONSTANT)
-        square_width = int(frame_width * frame_ratio * constants.FRAME_RATIO_CONSTANT)
+        square_height = int(frame_height * FRAME_RATIO_CONSTANT)
+        square_width = int(frame_width * frame_ratio * FRAME_RATIO_CONSTANT)
 
         #coordinates of the top left corner of our square capture box
         x = (frame_width - square_width) // 2
@@ -51,8 +51,8 @@ def main():
         key = cv.waitKey(1) & 0xFF
         if key == ord('s'):
             image_name = f"captured_image_{image_count}.jpg"
-            os.makedirs(constants.CUBE_FOLDER, exist_ok=True)
-            cv.imwrite(os.path.join(constants.CUBE_FOLDER, image_name), square_frame)
+            os.makedirs(CUBE_FOLDER, exist_ok=True)
+            cv.imwrite(os.path.join(CUBE_FOLDER, image_name), square_frame)
             print(f"image saved as {image_name}")
             image_count += 1
             ##show image for brief time period after screenshot
