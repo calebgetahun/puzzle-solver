@@ -64,7 +64,7 @@ def main():
     capture.release()
     cv.destroyAllWindows()
 
-    cube = image_processing.process_image_files()
+    cube = image_processing.process_image_files(CUBE_FOLDER)
     cube_colors = []
     for face in cube:
         color_f = []
@@ -77,10 +77,14 @@ def main():
         cube_colors.append(color_f)
 
     ##cube colors for each face
-    for i in range (len(cube_colors)):
-        print(f"face {i}")
-        for row in cube_colors[i]:
-            print(row)
+    # for i in range (len(cube_colors)):
+    #     print(f"face {i}")
+    #     for row in cube_colors[i]:
+    #         print(row)
     
+    for row in range(len(cube)):
+        for col in range(len(cube[0])):
+            print(cube[row][col])
+
 if __name__ == "__main__":
     main()
