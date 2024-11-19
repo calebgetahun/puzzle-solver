@@ -16,3 +16,9 @@ def test_extract_hsv_from_cubies():
     assert extract_hsv_from_cubies(image)[0][2] == [0, 0, 255]
     assert extract_hsv_from_cubies(image)[1][1] == [0, 255, 255]
     assert extract_hsv_from_cubies(image)[2][0] == [19, 255, 255]
+
+def test_determine_color_of_cubie():
+    assert determine_color_of_cubie([15, 225, 255]) == "orange"
+    assert determine_color_of_cubie([9, 200, 255]) == "red"
+    assert determine_color_of_cubie([60, 225, 255]) == "green"
+    assert determine_color_of_cubie([30, 225, 255]) == "yellow"

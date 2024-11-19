@@ -49,5 +49,3 @@ def determine_color_of_cubie(hsv_value) -> str:
             return color
         
     return "unknown"
-
-process_image_files()
