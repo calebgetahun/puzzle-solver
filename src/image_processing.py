@@ -24,8 +24,10 @@ def extract_hsv_from_cubies(image) -> list:
 
 def process_image_files(image_dir_path: str):
     full_cube_hsv = []
-    sorted_dir_list = sorted(os.listdir(image_dir_path))
-      #Process each cube face in order captured
+    full_paths = [os.path.join(image_dir_path, image) for image in os.listdir(image_dir_path)]
+    sorted_dir_list = sorted(full_paths, key=os.path.getctime)
+
+    #Process each cube face in order captured
     for file in sorted_dir_list:
         if file.endswith(("jpg", "png")):
             file_path = os.path.join(image_dir_path, file)
@@ -35,9 +37,6 @@ def process_image_files(image_dir_path: str):
 
             full_cube_hsv.append(hsv_face)
             #positioning on cube face relative to center_cube_pos to determine center of each cubie
-    
-    # for face in full_cube_hsv:
-    #     print(face)
     
     return full_cube_hsv
 

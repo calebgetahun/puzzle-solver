@@ -56,7 +56,9 @@ def main():
             cv.imwrite(os.path.join(CUBE_FOLDER, image_name), square_frame)
             print(f"image saved as {image_name}")
             image_count += 1
-            ##show image for brief time period after screenshot
+            if image_count == 6:
+                break
+            #TODO: show image for brief time period after screenshot
 
         if key == ord('q'):
             break
@@ -64,9 +66,26 @@ def main():
     capture.release()
     cv.destroyAllWindows()
 
+    #hsv_values of cube
     cube = image_processing.process_image_files(CUBE_FOLDER)
+    #colors of cube from hsv_values
+    cube_colored = get_colors_from_hsv(cube)
+
+    ## Printing functions ##
+    #cube colors for each face
+    # for i in range (len(cube_colored)):
+    #     print(f"face {CUBE_FACE_NOTATION[i]}")
+    #     for row in cube_colored[i]:
+    #         print(row)
+    
+    # hsv value for each face
+    # for row in range(len(cube)):
+    #     for col in range(len(cube[0])):
+    #         print(cube[row][col])
+
+def get_colors_from_hsv(cube_hsv):
     cube_colors = []
-    for face in cube:
+    for face in cube_hsv:
         color_f = []
         for row in range(len(face)):
             color_r = []
@@ -75,16 +94,7 @@ def main():
                 color_r.append(cubie_c)
             color_f.append(color_r)
         cube_colors.append(color_f)
-
-    #cube colors for each face
-    for i in range (len(cube_colors)):
-        print(f"face {CUBE_FACE_NOTATION[i]}")
-        for row in cube_colors[i]:
-            print(row)
-    
-    # for row in range(len(cube)):
-    #     for col in range(len(cube[0])):
-    #         print(cube[row][col])
+    return cube_colors
 
 if __name__ == "__main__":
     main()
