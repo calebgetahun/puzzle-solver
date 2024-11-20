@@ -1,7 +1,7 @@
 import cv2 as cv
 import os
 import numpy as np
-from src.constants import FRAME_RATIO_CONSTANT, CUBE_FOLDER
+from src.constants import FRAME_RATIO_CONSTANT, CUBE_FOLDER, CUBE_FACE_NOTATION
 from src import image_processing
 
 def main():
@@ -9,7 +9,7 @@ def main():
     capture = cv.VideoCapture(0)
 
     #number image captured
-    image_count = 1
+    image_count = 0
 
     while True:
         ret, frame = capture.read()
@@ -31,7 +31,7 @@ def main():
 
         font = cv.FONT_HERSHEY_SIMPLEX
         cv.putText(frame,
-                f"ALIGN CUBE FACE IN OUTLINE. PRESS 's' TO CAPTURE. CURRENT FACE: {image_count}",
+                f"ALIGN CUBE FACE. PRESS 's' TO CAPTURE. CURRENT FACE: {CUBE_FACE_NOTATION[image_count % 6]}",
                 (50, 50),
                 font,
                 1,
@@ -51,7 +51,7 @@ def main():
         #key directions to quit or save cube image file to cube images folder 
         key = cv.waitKey(1) & 0xFF
         if key == ord('s'):
-            image_name = f"captured_image_{image_count}.jpg"
+            image_name = f"{CUBE_FACE_NOTATION[image_count % 6]}_FACE.jpg"
             os.makedirs(CUBE_FOLDER, exist_ok=True)
             cv.imwrite(os.path.join(CUBE_FOLDER, image_name), square_frame)
             print(f"image saved as {image_name}")
@@ -76,15 +76,15 @@ def main():
             color_f.append(color_r)
         cube_colors.append(color_f)
 
-    ##cube colors for each face
-    # for i in range (len(cube_colors)):
-    #     print(f"face {i}")
-    #     for row in cube_colors[i]:
-    #         print(row)
+    #cube colors for each face
+    for i in range (len(cube_colors)):
+        print(f"face {CUBE_FACE_NOTATION[i]}")
+        for row in cube_colors[i]:
+            print(row)
     
-    for row in range(len(cube)):
-        for col in range(len(cube[0])):
-            print(cube[row][col])
+    # for row in range(len(cube)):
+    #     for col in range(len(cube[0])):
+    #         print(cube[row][col])
 
 if __name__ == "__main__":
     main()

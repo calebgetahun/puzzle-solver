@@ -3,6 +3,7 @@ import os
 CUBE_FOLDER = os.path.join(os.path.dirname(__file__), "..", "assets", "cube_images")
 FRAME_RATIO_CONSTANT = 0.3
 CUBE_FACE_POSITIONING = (1, 3, 5)
+CUBE_FACE_NOTATION = ["FRONT", "LEFT", "RIGHT", "BACK", "TOP", "BOTTOM"]
 COLOR_MAP = {
     "red": [(0, 100, 75), (5, 255, 255)],
     "orange": [(6, 100, 75), (20, 255, 255)],
