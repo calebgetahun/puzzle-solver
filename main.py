@@ -73,15 +73,15 @@ def main():
 
     ## Printing functions ##
     #cube colors for each face
-    # for i in range (len(cube_colored)):
-    #     print(f"face {CUBE_FACE_NOTATION[i]}")
-    #     for row in cube_colored[i]:
-    #         print(row)
+    for i in range (len(cube_colored)):
+        print(f"face {CUBE_FACE_NOTATION[i]}")
+        for row in cube_colored[i]:
+            print(row)
     
     # hsv value for each face
-    # for row in range(len(cube)):
-    #     for col in range(len(cube[0])):
-    #         print(cube[row][col])
+    for row in range(len(cube)):
+        for col in range(len(cube[0])):
+            print(cube[row][col])
 
 def get_colors_from_hsv(cube_hsv):
     cube_colors = []

@@ -25,8 +25,8 @@ def extract_hsv_from_cubies(image) -> list:
 def process_image_files(image_dir_path: str):
     full_cube_hsv = []
     full_paths = [os.path.join(image_dir_path, image) for image in os.listdir(image_dir_path)]
-    sorted_dir_list = sorted(full_paths, key=os.path.getctime)
-
+    sorted_dir_list = sorted(full_paths, key=os.path.getmtime)
+    print(sorted_dir_list)
     #Process each cube face in order captured
     for file in sorted_dir_list:
         if file.endswith(("jpg", "png")):
