@@ -48,3 +48,21 @@ def determine_color_of_cubie(hsv_value) -> str:
             return color
         
     return "unknown"
+
+def convert_image_colors_orientation(colors: list):
+    # inverse = {0: 2, 1: 1, 2: 0}
+    for face in colors:
+        face[0][0], face[2][2] = face[2][2], face[0][0]
+        face[0][1], face[2][1] = face[2][1], face[0][1]
+        face[0][2], face[2][0] = face[2][0], face[0][2]
+        face[1][0], face[1][2] = face[1][2], face[1][0]
+    
+    #TODO: figure out better way to do this: kind of hacky
+    #solution below double switches cubies after the middle cubie is passed
+    # for row in range(0, 2):
+        #     for col in range(0, 2):
+        #         print(face[inverse[row]][inverse[col]])
+        #         print(f"{row}, {col} swapped with {inverse[row]}, {inverse[col]}")
+        #         face[row][col], face[inverse[row]][inverse[col]] = face[inverse[row]][inverse[col]], face[row][col]
+    
+    return colors
