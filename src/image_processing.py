@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 import os
-from .constants import CUBE_FACE_POSITIONING, COLOR_MAP
+from .constants import CUBE_FACE_POSITIONING, COLOR_MAP, COLOR_NUMBER_MAP
 
 def extract_hsv_from_cubies(image) -> list:
     #read image size (should be square based on previous calculations)
@@ -45,9 +45,24 @@ def determine_color_of_cubie(hsv_value) -> str:
         lower = np.array(lower)
         upper = np.array(upper)
         if (lower <= hsv_value).all() and (upper >= hsv_value).all():
+            if color == "red2":
+                return "red"
             return color
         
     return "unknown"
+
+def get_colors_from_hsv(cube_hsv):
+    cube_colors = []
+    for face in cube_hsv:
+        color_f = []
+        for row in range(len(face)):
+            color_r = []
+            for col in range(len(face[0])):
+                cubie_c = determine_color_of_cubie(face[row][col])
+                color_r.append(cubie_c)
+            color_f.append(color_r)
+        cube_colors.append(color_f)
+    return cube_colors
 
 def convert_image_colors_orientation(colors: list):
     # inverse = {0: 2, 1: 1, 2: 0}
@@ -57,12 +72,17 @@ def convert_image_colors_orientation(colors: list):
         face[0][2], face[2][0] = face[2][0], face[0][2]
         face[1][0], face[1][2] = face[1][2], face[1][0]
     
-    #TODO: figure out better way to do this: kind of hacky
-    #solution below double switches cubies after the middle cubie is passed
-    # for row in range(0, 2):
-        #     for col in range(0, 2):
-        #         print(face[inverse[row]][inverse[col]])
-        #         print(f"{row}, {col} swapped with {inverse[row]}, {inverse[col]}")
-        #         face[row][col], face[inverse[row]][inverse[col]] = face[inverse[row]][inverse[col]], face[row][col]
-    
     return colors
+
+def cube_to_string(cube) -> str:
+    cube_to_string = []
+    for face in cube:
+        face_string = cube_face_to_string(face)
+        cube_to_string.extend(face_string)
+    return cube_to_string
+
+def cube_face_to_string(cube_face) -> str:
+    for row in range(len(cube_face)):
+        for col in range(len(cube_face[0])):
+            cube_face[row][col] = COLOR_NUMBER_MAP[cube_face[row][col]]
+    return list(map(str, sum(cube_face, [])))

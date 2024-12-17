@@ -69,11 +69,14 @@ def main():
     #hsv_values of cube
     cube = image_processing.process_image_files(CUBE_FOLDER)
     #colors of cube from hsv_values
-    cube_colored = get_colors_from_hsv(cube)
+    cube_colored = image_processing.get_colors_from_hsv(cube)
 
     adjusted_colors = image_processing.convert_image_colors_orientation(cube_colored)
 
+    # string representation of the cube for easier storage
+    string_representation = image_processing.cube_to_string(adjusted_colors)
     ## Printing functions ##
+
     #cube colors for each face
     # for i in range (len(cube_colored)):
     #     print(f"face {CUBE_FACE_NOTATION[i]}")
@@ -84,22 +87,10 @@ def main():
     # for row in range(len(cube)):
     #     for col in range(len(cube[0])):
     #         print(cube[row][col])
-
-    for face in adjusted_colors:
-        print(face)
-
-def get_colors_from_hsv(cube_hsv):
-    cube_colors = []
-    for face in cube_hsv:
-        color_f = []
-        for row in range(len(face)):
-            color_r = []
-            for col in range(len(face[0])):
-                cubie_c = image_processing.determine_color_of_cubie(face[row][col])
-                color_r.append(cubie_c)
-            color_f.append(color_r)
-        cube_colors.append(color_f)
-    return cube_colors
+    
+    # for face in adjusted_colors:
+    #     print(face)
+    # print(string_representation)
 
 if __name__ == "__main__":
     main()

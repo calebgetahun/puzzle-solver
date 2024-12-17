@@ -13,3 +13,12 @@ COLOR_MAP = {
     "red2": [(160, 100, 75), (179 , 255, 255)],
     "white": [(0, 0, 150), (180, 60, 255)]
 }
+
+COLOR_NUMBER_MAP = {
+    "white": 1,
+    "green": 2,
+    "blue": 3,
+    "yellow": 4,
+    "orange": 5,
+    "red": 6
+}
