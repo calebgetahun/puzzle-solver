@@ -1,8 +1,7 @@
 import cv2 as cv
 import os
-import numpy as np
 from src.constants import FRAME_RATIO_CONSTANT, CUBE_FOLDER, CUBE_FACE_NOTATION
-from src import image_processing
+from src.image_processing import process_image_files, get_colors_from_hsv
 
 def main():
     #default camera capture
@@ -66,15 +65,19 @@ def main():
     capture.release()
     cv.destroyAllWindows()
 
+def proccess_and_create_cube():
     #hsv_values of cube
-    cube = image_processing.process_image_files(CUBE_FOLDER)
+    cube = process_image_files(CUBE_FOLDER)
     #colors of cube from hsv_values
-    cube_colored = image_processing.get_colors_from_hsv(cube)
+    cube_colored = get_colors_from_hsv(cube)
+    for face in cube_colored:
+        print(face)
 
-    adjusted_colors = image_processing.convert_image_colors_orientation(cube_colored)
+    # adjusted_colors = image_processing.convert_image_colors_orientation(cube_colored)
 
     # string representation of the cube for easier storage
-    string_representation = image_processing.cube_to_string(adjusted_colors)
+    # string_representation = image_processing.cube_to_string(adjusted_colors)
+    # print(string_representation)
     ## Printing functions ##
 
     #cube colors for each face
@@ -92,5 +95,11 @@ def main():
     #     print(face)
     # print(string_representation)
 
+def solve_cube(cube_faces):
+    pass
+    
+
+
 if __name__ == "__main__":
     main()
+    proccess_and_create_cube()

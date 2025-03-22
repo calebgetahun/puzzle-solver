@@ -1,9 +1,10 @@
-import os
+from pathlib import Path
 
-CUBE_FOLDER = os.path.join(os.path.dirname(__file__), "..", "assets", "cube_images")
+BASE_DIR = Path(__file__).resolve().parent.parent
+CUBE_FOLDER = BASE_DIR / "assets" / "cube_images"
 FRAME_RATIO_CONSTANT = 0.3
 CUBE_FACE_POSITIONING = (1, 3, 5)
-CUBE_FACE_NOTATION = ["FRONT", "LEFT", "RIGHT", "BACK", "TOP", "BOTTOM"]
+CUBE_FACE_NOTATION = ["UP", "RIGHT", "FRONT", "DOWN", "LEFT", "BACK"]
 COLOR_MAP = {
     "red": [(0, 100, 75), (6, 255, 255)],
     "orange": [(7, 100, 75), (20, 255, 255)],
@@ -21,4 +22,13 @@ COLOR_NUMBER_MAP = {
     "yellow": 4,
     "orange": 5,
     "red": 6
+}
+
+COLOR_LETTER_MAP = {
+    "O": "U",
+    "B": "R",
+    "W": "F",
+    "R": "D",
+    "G": "L",
+    "Y": "B"
 }

@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 import os
-from .constants import CUBE_FACE_POSITIONING, COLOR_MAP, COLOR_NUMBER_MAP
+from src.constants import CUBE_FACE_POSITIONING, COLOR_MAP, COLOR_NUMBER_MAP
 
 def extract_hsv_from_cubies(image) -> list:
     #read image size (should be square based on previous calculations)
@@ -26,7 +26,8 @@ def process_image_files(image_dir_path: str):
     full_cube_hsv = []
     full_paths = [os.path.join(image_dir_path, image) for image in os.listdir(image_dir_path)]
     sorted_dir_list = sorted(full_paths, key=os.path.getmtime)
-    print(sorted_dir_list)
+    for path in sorted_dir_list:
+        print(path)
     #Process each cube face in order captured
     for file in sorted_dir_list:
         if file.endswith(("jpg", "png")):
