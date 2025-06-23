@@ -1,12 +1,27 @@
 import kociemba
-from src.constants import COLOR_LETTER_MAP
+from puzzle_solver_core.src.constants import COLOR_LETTER_MAP
+from puzzle_solver_core.src.Cube import Cube
 
-class Cube_v0:
-    def __init__(self, initial_state):
-        self.initial_state = initial_state
-        self.solution = []
+def color_to_face(face: list):
+    face_s = []
+    for cubie in face:
+        face_s.append(COLOR_LETTER_MAP[cubie])
+    return face_s
 
-def main():
+def create_cube_string(cube: Cube):
+    cube_string = []
+    
+    for face in cube.cube_faces:
+        cube_string.extend(color_to_face(face))
+
+    return "".join(cube_string)
+
+def solve_cube(cube: Cube):
+    cube_string = create_cube_string(cube)
+    return kociemba.solve(cube_string)
+    
+
+def test_cube_example():
 
     """
              |************|
@@ -44,31 +59,10 @@ def main():
     LEFT = ["B", "R", "G", "B", "G", "O", "B", "Y", "G"]
     BACK = ["W", "O", "R", "W", "Y", "W", "W", "G", "R"]
 
-
-    scramble_string = []
-    scramble_string.extend(color_to_face(UP))
-    scramble_string.extend(color_to_face(RIGHT))
-    scramble_string.extend(color_to_face(FRONT))
-    scramble_string.extend(color_to_face(DOWN))
-    scramble_string.extend(color_to_face(LEFT))
-    scramble_string.extend(color_to_face(BACK))
-
-    scramble = "".join(scramble_string)
-    print(scramble)
-
-    cube = Cube_v0(scramble)
-    cube.solution = kociemba.solve(cube.initial_state)
-    print(cube.solution)
-
-def color_to_face(face: list):
-    face_s = []
-    for cubie in face:
-        face_s.append(COLOR_LETTER_MAP[cubie])
-    return face_s
-
-def api_process_input(scramble: str):
-    solution = kociemba.solve(scramble)
-    return f"Here is your solution: {solution}"
+    faces = [UP, RIGHT, FRONT, DOWN, LEFT, BACK]
+    test_cube = Cube(faces)
+    solution = solve_cube(test_cube)
+    print(solution)
 
 if __name__ == "__main__":
-    main()
+    test_cube_example()

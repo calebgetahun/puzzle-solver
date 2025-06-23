@@ -1,9 +1,13 @@
 import cv2 as cv
-import os
-from src.constants import FRAME_RATIO_CONSTANT, CUBE_FOLDER, CUBE_FACE_NOTATION
-from src.image_processing import process_image_files, get_colors_from_hsv
+from puzzle_solver_core.src.Cube import Cube
+from puzzle_solver_core.src.image_processing_core import image_bytes_to_colors
+from puzzle_solver_core.src.kociemba_solver_core import solve_cube
 
-def main():
+FRAME_RATIO_CONSTANT = 0.3
+CUBE_FACE_NOTATION = ["UP", "RIGHT", "FRONT", "DOWN", "LEFT", "BACK"]
+images = []
+
+def capture():
     #default camera capture
     capture = cv.VideoCapture(0)
 
@@ -50,14 +54,15 @@ def main():
         #key directions to quit or save cube image file to cube images folder 
         key = cv.waitKey(1) & 0xFF
         if key == ord('s'):
-            image_name = f"{CUBE_FACE_NOTATION[image_count % 6]}_FACE.jpg"
-            os.makedirs(CUBE_FOLDER, exist_ok=True)
-            cv.imwrite(os.path.join(CUBE_FOLDER, image_name), square_frame)
-            print(f"image saved as {image_name}")
+            success, encoded_image = cv.imencode('.jpg', square_frame)
+            if not success:
+                raise ValueError("Image encoding failed")
+            image_bytes = encoded_image.tobytes()
+            images.append(image_bytes)
+
             image_count += 1
             if image_count == 6:
                 break
-            #TODO: show image for brief time period after screenshot
 
         if key == ord('q'):
             break
@@ -65,41 +70,15 @@ def main():
     capture.release()
     cv.destroyAllWindows()
 
-def proccess_and_create_cube():
-    #hsv_values of cube
-    cube = process_image_files(CUBE_FOLDER)
-    #colors of cube from hsv_values
-    cube_colored = get_colors_from_hsv(cube)
-    for face in cube_colored:
-        print(face)
-
-    # adjusted_colors = image_processing.convert_image_colors_orientation(cube_colored)
-
-    # string representation of the cube for easier storage
-    # string_representation = image_processing.cube_to_string(adjusted_colors)
-    # print(string_representation)
-    ## Printing functions ##
-
-    #cube colors for each face
-    # for i in range (len(cube_colored)):
-    #     print(f"face {CUBE_FACE_NOTATION[i]}")
-    #     for row in cube_colored[i]:
-    #         print(row)
-    
-    # # hsv value for each face
-    # for row in range(len(cube)):
-    #     for col in range(len(cube[0])):
-    #         print(cube[row][col])
-    
-    # for face in adjusted_colors:
-    #     print(face)
-    # print(string_representation)
-
-def solve_cube(cube_faces):
-    pass
-    
-
+def output_solution(image_byte_list):
+    colored_cube = image_bytes_to_colors(image_byte_list)
+    cube = Cube(colored_cube)
+    solution = solve_cube(cube)
+    print(f"Here is your solution: {solution}")
 
 if __name__ == "__main__":
-    main()
-    proccess_and_create_cube()
+    capture()
+    if len(images) != 6:
+        raise ValueError(f"6 images needed to solve cube. Received {len(images)} instead")
+
+    output_solution(images)
