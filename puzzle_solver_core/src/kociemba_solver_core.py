@@ -60,7 +60,9 @@ def test_cube_example():
     BACK = ["W", "O", "R", "W", "Y", "W", "W", "G", "R"]
 
     faces = [UP, RIGHT, FRONT, DOWN, LEFT, BACK]
-    test_cube = Cube(faces)
+    print(faces)
+    example = [['W', 'W', 'G', 'Y', 'O', 'Y', 'R', 'W', 'G'], ['O', 'B', 'R', 'G', 'B', 'R', 'B', 'B', 'B'], ['Y', 'G', 'W', 'G', 'W', 'R', 'Y', 'B', 'Y'], ['O', 'R', 'O', 'O', 'R', 'O', 'Y', 'Y', 'O'], ['B', 'R', 'G', 'B', 'G', 'O', 'B', 'Y', 'G'], ['W', 'O', 'R', 'W', 'Y', 'W', 'W', 'G', 'R']]
+    test_cube = Cube(example)
     solution = solve_cube(test_cube)
     print(solution)
 
