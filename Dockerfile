@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY puzzle_solver_api ./puzzle_solver_api
 COPY puzzle_solver_core ./puzzle_solver_core
 
-# Make sure Python can find both backend/ and core/
+# Make sure Python can find api and core
 ENV PYTHONPATH=/app
 
 # Move into backend/ to run FastAPI entry point (main.py)
@@ -28,4 +28,4 @@ WORKDIR /app/puzzle_solver_api
 ENV PORT=8080
 
 # Run the FastAPI app using uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "puzzle_solver_api.main:app", "--host", "0.0.0.0", "--port", "8080"]
