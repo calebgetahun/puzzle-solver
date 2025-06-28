@@ -20,7 +20,6 @@ def solve_cube(cube: Cube):
     cube_string = create_cube_string(cube)
     return kociemba.solve(cube_string)
     
-
 def test_cube_example():
 
     """
@@ -61,10 +60,10 @@ def test_cube_example():
 
     faces = [UP, RIGHT, FRONT, DOWN, LEFT, BACK]
     print(faces)
-    example = [['W', 'W', 'G', 'Y', 'O', 'Y', 'R', 'W', 'G'], ['O', 'B', 'R', 'G', 'B', 'R', 'B', 'B', 'B'], ['Y', 'G', 'W', 'G', 'W', 'R', 'Y', 'B', 'Y'], ['O', 'R', 'O', 'O', 'R', 'O', 'Y', 'Y', 'O'], ['B', 'R', 'G', 'B', 'G', 'O', 'B', 'Y', 'G'], ['W', 'O', 'R', 'W', 'Y', 'W', 'W', 'G', 'R']]
-    test_cube = Cube(example)
+    test_cube = Cube(faces)
     solution = solve_cube(test_cube)
     print(solution)
 
 if __name__ == "__main__":
     test_cube_example()
+    
