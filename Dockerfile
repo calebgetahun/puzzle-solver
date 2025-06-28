@@ -1,5 +1,12 @@
 FROM python:3.11-slim
 
+# Install system dependencies
+RUN apt-get update && apt-get -y install \
+    build-essential \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
 # Set working directory inside the container
 WORKDIR /app
 
