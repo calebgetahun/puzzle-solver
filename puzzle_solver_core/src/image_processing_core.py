@@ -3,7 +3,7 @@ import numpy as np
 from typing import List
 from puzzle_solver_core.src.constants import CUBE_FACE_POSITIONING, COLOR_MAP
 
-def extract_hsv_from_cubies(image) -> list:
+def extract_hsv_from_cubies(image: np.ndarray) -> list:
     """
     takes in singular image of cube face and outputs the colors as a list from top left to bottom right
 
@@ -14,17 +14,30 @@ def extract_hsv_from_cubies(image) -> list:
         list[int] which represents the hsv value of each individual cubie in the cube face
     
     """
+
+    if image is None or len(image.shape) != 3:
+        raise ValueError("invalid image input.")
     #read image size (should be square based on previous calculations)
-    image_size = image.shape[0]
-    center_cubie_pos = int(image_size / 6)
+    h, w, _ = image.shape
+
+    if h != w:
+        raise ValueError("image must be a square. Got {h} x {w}")
+
+    center_cubie_pos = int(h / 6)
     hsv_cubies_face = []
     
     #read cubies from left to right, top to bottom. Start from 1/6, 3/6, 5/6 to store color in the middle of each cubie
     for row in CUBE_FACE_POSITIONING:
         curr_row = []
         for col in CUBE_FACE_POSITIONING:
+            y = center_cubie_pos * row
+            x = center_cubie_pos * col
+
+            if y >= h or x >= h:
+                raise ValueError(f"image points out of bounds: ({y}, {x})")
+        
             #positioning on cube face relative to center_cube_pos to determine center of each cubie
-            curr_pixel = image[center_cubie_pos * row, center_cubie_pos * col]
+            curr_pixel = image[y, x]
             curr_hsv = cv.cvtColor(np.uint8([[curr_pixel]]), cv.COLOR_BGR2HSV)
             curr_row.append(curr_hsv[0][0].tolist())
 
@@ -42,16 +55,22 @@ def process_image_files(cube_image_bytes: List[bytes]):
 
     """
 
-    images = [cv.imdecode(np.frombuffer(i, np.uint8), cv.IMREAD_COLOR) for i in cube_image_bytes]
+    images = []
+    for i, byte_data in enumerate(cube_image_bytes):
+        np_arr = np.frombuffer(byte_data, np.uint8)
+        image = cv.imdecode(np_arr, cv.IMREAD_COLOR)
+        if image is None:
+            raise ValueError(f"Image {i} could not be decoded.")
+        images.append(image)
+
     full_cube_hsv = []
-    
-    for image in images:
+    for i, image in enumerate(images):
+        try:
+            hsv_face = extract_hsv_from_cubies(image)
+            full_cube_hsv.append(hsv_face)
+        except Exception as e:
+            raise ValueError(f"Error processing cube face {i}: {str(e)}")
 
-        hsv_face = extract_hsv_from_cubies(image)
-
-        full_cube_hsv.append(hsv_face)
-        #positioning on cube face relative to center_cube_pos to determine center of each cubie
-    
     return full_cube_hsv
 
 def determine_color_of_cubie(hsv_value) -> str:
@@ -67,11 +86,14 @@ def determine_color_of_cubie(hsv_value) -> str:
 
 def get_colors_from_hsv(cube_hsv):
     cube_colors = []
-    for face in cube_hsv:
+    for i, face in enumerate(cube_hsv):
         color_f = []
         for row in range(len(face)):
             for col in range(len(face[0])):
-                color_f.append(determine_color_of_cubie(face[row][col]))
+                curr_color = determine_color_of_cubie(face[row][col])
+                if curr_color == "unknown":
+                    raise ValueError(f"unknown color detected on face {i} at position ({row}, {col})")
+                color_f.append(curr_color)
         cube_colors.append(color_f)
     return cube_colors
 
