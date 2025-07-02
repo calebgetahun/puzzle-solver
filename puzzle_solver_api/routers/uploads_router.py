@@ -1,7 +1,7 @@
 import logging
 from typing import List
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from puzzle_solver_core.src.image_processing_core import image_bytes_to_colors
+from puzzle_solver_core.src.image_processing_core import image_bytes_to_colors, process_image_files
 
 router = APIRouter()
 
@@ -24,4 +24,17 @@ async def upload_images(images: List[UploadFile] = File(...)):
         return {"cube_faces": cube_faces}
     except Exception as e:
         logger.exception("Error while processing images")
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@router.post("/hsv_values")
+async def hsv_cube_faces(images: List[UploadFile] = File(...)):
+    logger.info(f"Received {len(images)} images")
+    for image in images:
+        logger.info(f"Image: {image.filename} - content_type: {image.content_type}")
+    try:
+        cube_image_bytes = [await image.read() for image in images]
+        hsv_values = process_image_files(cube_image_bytes)
+        return {"hsv_cube": hsv_values}
+    except Exception as e:
+        logger.exception("Error while processing for hsv values")
         raise HTTPException(status_code=500, detail=str(e))
