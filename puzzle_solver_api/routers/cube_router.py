@@ -10,6 +10,6 @@ class CubeModel(BaseModel):
 router = APIRouter()
 
 @router.post("/solve")
-async def upload_images(cube: List[List[str]]):
-    solution = solve_cube(Cube(cube))
+async def cube_solution(cube: CubeModel):
+    solution = solve_cube(Cube(cube.cube_faces))
     return {"solution": solution}
