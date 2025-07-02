@@ -21,7 +21,7 @@ def extract_hsv_from_cubies(image: np.ndarray) -> list:
     h, w, _ = image.shape
 
     if h != w:
-        raise ValueError("image must be a square. Got {h} x {w}")
+        raise ValueError(f"image must be a square. Got {h} x {w}")
 
     center_cubie_pos = int(h / 6)
     hsv_cubies_face = []
