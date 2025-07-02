@@ -21,7 +21,7 @@ async def upload_images(images: List[UploadFile] = File(...)):
         cube_image_bytes = [await image.read() for image in images]
         logger.info(f"Image byte sizes: {[len(b) for b in cube_image_bytes]}")
         cube_faces = image_bytes_to_colors(cube_image_bytes)
-        return {"cube": cube_faces}
+        return {"cube_faces": cube_faces}
     except Exception as e:
         logger.exception("Error while processing images")
         raise HTTPException(status_code=500, detail=str(e))
