@@ -71,6 +71,8 @@ def capture():
     cv.destroyAllWindows()
 
 def output_solution(image_byte_list):
+    if len(image_byte_list) != 6:
+        raise ValueError(f"6 images needed to solve cube. Received {len(image_byte_list)} instead")
     colored_cube = image_bytes_to_colors(image_byte_list)
     cube = Cube(colored_cube)
     solution = solve_cube(cube)
@@ -78,7 +80,4 @@ def output_solution(image_byte_list):
 
 if __name__ == "__main__":
     capture()
-    if len(images) != 6:
-        raise ValueError(f"6 images needed to solve cube. Received {len(images)} instead")
-
     output_solution(images)
