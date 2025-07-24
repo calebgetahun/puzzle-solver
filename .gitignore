@@ -124,3 +124,6 @@ venv/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# Notes and other code
+archive/
