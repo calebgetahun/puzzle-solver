@@ -5,10 +5,6 @@ RUN apt-get update && apt-get -y install \
     build-essential \
     gcc \
     g++ \
-    libgl1 \
-    ffmpeg \
-    libsm6 \
-    libxext6 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory inside the container

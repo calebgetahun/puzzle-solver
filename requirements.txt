@@ -8,7 +8,7 @@ h11==0.16.0
 idna==3.10
 kociemba==1.2.1
 numpy==2.3.0
-opencv-python==4.11.0.86
+opencv-python-headless==4.11.0.86
 pycparser==2.22
 pydantic==2.11.5
 pydantic_core==2.33.2
