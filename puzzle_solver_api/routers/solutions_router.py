@@ -4,9 +4,9 @@ from fastapi import APIRouter, HTTPException
 from puzzle_solver_api.schemas import CubeState, SolutionResponse
 from puzzle_solver_api.services.solver_service import InvalidCubeError, solve_from_faces
 
-router = APIRouter(prefix="/v1", tags=["solutions"])
+router = APIRouter(prefix="/v1/solutions", tags=["solutions"])
 
-@router.post("/solutions", response_model=SolutionResponse)
+@router.post("", response_model=SolutionResponse)
 async def create_solution(cube: CubeState):
     try:
         solution = solve_from_faces(cube.faces)

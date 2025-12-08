@@ -45,16 +45,11 @@ def extract_hsv_from_cubies(image: np.ndarray) -> list:
     
     return hsv_cubies_face
 
-def process_image_files(cube_image_bytes: List[bytes]):
+def process_image_files(cube_image_bytes: List[bytes]) -> List[List[List[List[int]]]]:
     """
-    This function takes as input the entire cube as byte encoded images and converts them into the hsv color space used by opencv
+    Input is entire cube as byte encoded images and converts them into the hsv color space used by opencv
     This is then used to create an image based on the coloring and notation system used to solve the cube
-
-    Args:
-        list 
-
     """
-
     images = []
     for i, byte_data in enumerate(cube_image_bytes):
         np_arr = np.frombuffer(byte_data, np.uint8)
