@@ -3,7 +3,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Query
 from puzzle_solver_core.src.image_processing_core import image_bytes_to_colors, process_image_files
 from ..schemas import ScanResponse, HSVResponse
 
-router = APIRouter(prefix="v1/scans", tags=["scans"])
+router = APIRouter(prefix="/v1/scans", tags=["scans"])
 
 async def _read_cube_images(images: List[UploadFile]) -> List[bytes]:
     if len(images) != 6:

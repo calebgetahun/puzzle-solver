@@ -1,44 +1,67 @@
-# puzzle-solver
+# Puzzle Solver
 
-Using computer vision and graph algorithm methodologies to probabilistically solve a Rubik's cube in the fewest moves possible.
-
-If we allow each possible state of the Rubik's cube (3x3x3) to represent a node in an undirected graph and each edge to represent a connection between one possible state to the next, our algorithm should be looking to eventually go from our scrambled state to our solved state with a certain number of moves (20 being the known limit to how few moves it takes with an average being ~18 for a 3x3)
-
-Considering a Rubik's cube contains over 43 quintillion (43 with 18 zeros after!), our approach must be conscious of the amount of space our algorithm could potentially use, while utilizing some kind of heuristic to narrow the search space as we go on. Here is where IDA* (iterative deepending A*) comes into play.
-
-This project's goal is to utilize OpenCV to capture input about our Rubik's cube and using this algorithm to output a sequence of moves to perform to solve our cube in probabilistically optimal number of moves.
-
-I encourage you to read more about IDA\* here: [Finding Optimal Solutions to Rubik's Cube
-Using Pattern Databases ](https://www.cs.princeton.edu/courses/archive/fall06/cos402/papers/korfrubik.pdf)
+A complete Rubik's Cube scanning and solving system built with Python, OpenCV, and FastAPI.
+This repo contains the core solver, a web API, and a CLI tool for webcam-based cube capture.
 
 ![](./rubiks-cube-gif.gif)
 
-# Installation (for CLI)
+## Project Overview
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/calebgetahun/puzzle-solver.git
-   ```
-2. Navigate to the the project root:
-   ```bash
-   cd puzzle-solver
-   ```
-3. Install requirements (I'd recommend to do this inside a virtual environment):
-   ```bash
-   pip install -r requirements.txt
-   ```
+This monorepo contains three components:
 
-# Usage
+<pre>
+puzzle-solver/
+├── puzzle_solver_core/   # Core cube logic, HSV extraction, Kociemba interface
+├── puzzle_solver_api/    # FastAPI backend for scanning & solving
+└── puzzle_solver_cli/    # CLI webcam tool for capturing cube faces
+</pre>
 
-1. Run the main script:
-   ```bash
-   python -m puzzle_solver_cli.main
-   ```
-2. Make sure you have a camera linked to your device (should be complete if done on a laptop/pc with connecting webcam)
-3. Follow instructions to take photos of each side
-4. Solution time!!
+The system supports:
 
-# Expansions
+- Cube face scanning (via CLI or client apps)
+- HSV extraction + color classification
+- Building a validated Cube model
+- Solving using the Kociemba algorithm
+- A versioned REST API for scanning and solving
 
-Note this repository **is** a work in progress\
-Please let me know if you have any suggestions/ways the project can be improved!
+## Running the API Locally
+
+```bash
+uvicorn puzzle_solver_api.main:app --reload
+```
+
+## API Endpoints (v1)
+
+**Scanning**
+
+- **`POST /v1/scans`**
+
+  - Upload 6 cube-face images → returns color labels
+  - Add `?hsv_debug=true` to include HSV debug data.
+
+- **`POST /v1/scans/hsv`**
+  - Returns HSV matrices only
+
+**Solving**
+
+- **`POST /v1/solutions`**
+  - Submit classified cube faces → returns solution move sequence
+    (Uses the Kociemba library internally)
+
+## CLI Usage
+
+```bash
+python puzzle_solver_cli/cli_main.py
+```
+
+Press `s` to capture each face. After 6 faces, the solution is printed to the console
+
+## License
+
+MIT License
+
+## Expansions
+
+This repository is a work in progress.
+
+Suggestions and improvements are welcome!
