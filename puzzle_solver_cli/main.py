@@ -4,7 +4,7 @@ from puzzle_solver_core.src.image_processing_core import image_bytes_to_colors
 from puzzle_solver_core.src.kociemba_solver_core import solve_cube
 
 FRAME_RATIO_CONSTANT = 0.3
-CUBE_FACE_NOTATION = ["UP", "RIGHT", "FRONT", "DOWN", "LEFT", "BACK"]
+CUBE_FACE_NOTATION = ["Orange", "Blue", "White", "Red", "Green", "Yellow"]
 images = []
 
 def capture():
