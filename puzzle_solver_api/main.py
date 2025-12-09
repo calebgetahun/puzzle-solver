@@ -10,6 +10,9 @@ from puzzle_solver_api.routers.solutions_router import router as solutions_route
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    """
+    FastAPI lifespan context manager to set up and tear down Redis connection.
+    """
     # Default to local Redis if REDIS_URL not set
     redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 

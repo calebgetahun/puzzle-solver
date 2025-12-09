@@ -11,13 +11,18 @@ from puzzle_solver_api.services.solver_service import InvalidCubeError, solve_fr
 router = APIRouter(prefix="/v1/solutions", tags=["solutions"])
 
 def _make_cache_key_from_faces(faces: List[List[str]]) -> str:
+    """
+    Creates a cache key string from the given cube faces
+    """
     payload = json.dumps(faces, separators=(",", ":"))
     digest = hashlib.sha256(payload.encode()).hexdigest()
     return f"solver:v1:{digest}"
 
 @router.post("", response_model=SolutionResponse)
 async def create_solution(cube: CubeState, request: Request):
-
+    """
+    Tries to hit redis for cached solution before computing new one from core service.
+    """
     faces = cube.faces
     cache_key = _make_cache_key_from_faces(faces)
 

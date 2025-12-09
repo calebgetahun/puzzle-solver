@@ -6,6 +6,9 @@ from puzzle_solver_api.services.solver_service import scan_faces_from_images, ge
 router = APIRouter(prefix="/v1/scans", tags=["scans"])
 
 async def _read_cube_images(images: List[UploadFile]) -> List[bytes]:
+    """
+    Reads and returns the raw bytes from the given list of UploadFile images. Also performs validation checks on count.
+    """
     if len(images) != 6:
         raise ValueError("cube must have 6 images exactly")
 

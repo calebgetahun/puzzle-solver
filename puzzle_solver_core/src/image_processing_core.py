@@ -3,16 +3,9 @@ import numpy as np
 from typing import List
 from puzzle_solver_core.src.constants import CUBE_FACE_POSITIONING, COLOR_MAP
 
-def extract_hsv_from_cubies(image: np.ndarray) -> list:
+def extract_hsv_from_cubies(image: np.ndarray) -> List[List[List[int]]]:
     """
-    takes in singular image of cube face and outputs the colors as a list from top left to bottom right
-
-    Args:
-        image: a byte encoded image
-    
-    Returns:
-        list[int] which represents the hsv value of each individual cubie in the cube face
-    
+    Takes in singular image of cube face and outputs the colors as a list from top left to bottom right    
     """
 
     if image is None or len(image.shape) != 3:
@@ -69,6 +62,9 @@ def process_image_files(cube_image_bytes: List[bytes]) -> List[List[List[List[in
     return full_cube_hsv
 
 def determine_color_of_cubie(hsv_value) -> str:
+    """
+    Maps an HSV value to a cube color based on predefined ranges.
+    """
     for color, (lower, upper) in COLOR_MAP.items():
         lower = np.array(lower)
         upper = np.array(upper)
@@ -80,6 +76,9 @@ def determine_color_of_cubie(hsv_value) -> str:
     return "unknown"
 
 def get_colors_from_hsv(cube_hsv):
+    """
+    Determines cube colors from HSV values for all faces.
+    """
     cube_colors = []
     for i, face in enumerate(cube_hsv):
         color_f = []
@@ -93,6 +92,9 @@ def get_colors_from_hsv(cube_hsv):
     return cube_colors
 
 def image_bytes_to_colors(image_bytes: List[bytes]) -> List[List[str]]:
+    """
+    Performs full processing from raw image bytes to cube face colors.
+    """
     cube_hsv = process_image_files(image_bytes)
     colored_cube = get_colors_from_hsv(cube_hsv)
     return colored_cube

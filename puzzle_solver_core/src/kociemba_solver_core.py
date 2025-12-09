@@ -23,5 +23,7 @@ def solve_cube(cube: Cube):
 
 @lru_cache(maxsize=2048)
 def _solve_cube_string(cube_string: str) -> str:
-    """Solve a canonical 54-char cube string with caching."""
+    """
+    Solve a canonical 54-char cube string with caching.
+    """
     return kociemba.solve(cube_string)
