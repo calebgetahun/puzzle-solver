@@ -8,11 +8,7 @@ class InvalidCubeError(Exception):
 
 def solve_from_faces(faces: List[List[str]]) -> str:
     """
-    Application-level use case:
-    - Takes raw faces (from HTTP / CLI / tests)
-    - Builds the domain Cube
-    - Calls the core logic
-    - Normalizes domain errors
+    Returns a solution string for the given cube faces.
     """
     try:
         cube = Cube(faces)
@@ -23,10 +19,7 @@ def solve_from_faces(faces: List[List[str]]) -> str:
 
 def scan_faces_from_images(image_bytes: List[bytes]) -> List[List[str]]:
     """
-    Application-level use case for image scanning:
-    - Takes raw image bytes (6 images for cube faces)
-    - Processes images to extract colors
-    - Returns cube face data
+    Returns cube face colors from raw image bytes.
     """
     if len(image_bytes) != 6:
         raise ValueError("cube must have 6 images exactly")
@@ -35,9 +28,7 @@ def scan_faces_from_images(image_bytes: List[bytes]) -> List[List[str]]:
 
 def get_hsv_debug_values(image_bytes: List[bytes]) -> List[List[List[List[int]]]]:
     """
-    Debug use case:
-    - Takes raw image bytes
-    - Returns HSV values for analysis
+    Returns HSV values from raw image bytes (for debugging).
     """
     if len(image_bytes) != 6:
         raise ValueError("cube must have 6 images exactly")
