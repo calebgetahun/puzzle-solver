@@ -1,7 +1,7 @@
-from typing import List, Optional
-from fastapi import APIRouter, UploadFile, File, HTTPException, Query
-from puzzle_solver_core.src.image_processing_core import image_bytes_to_colors, process_image_files
-from ..schemas import ScanResponse, HSVResponse
+from typing import List
+from fastapi import APIRouter, UploadFile, File, HTTPException
+from puzzle_solver_api.schemas import ScanResponse, HSVResponse
+from puzzle_solver_api.services.solver_service import scan_faces_from_images, get_hsv_debug_values
 
 router = APIRouter(prefix="/v1/scans", tags=["scans"])
 
@@ -18,12 +18,12 @@ async def create_scan(images: List[UploadFile] = File(...), include_hsv: bool = 
     """
     try:
         cube_image_bytes = await _read_cube_images(images)
-        cube_faces = image_bytes_to_colors(cube_image_bytes)
+        cube_faces = scan_faces_from_images(cube_image_bytes)
 
         response = ScanResponse(faces=cube_faces)
 
         if include_hsv:
-            hsv_values = process_image_files(cube_image_bytes)
+            hsv_values = get_hsv_debug_values(cube_image_bytes)
             response.hsv_debug = hsv_values
         
         return response
@@ -38,8 +38,8 @@ async def scan_hsv_values(images: List[UploadFile] = File(...)):
     Debug endpoint: returns raw HSV values for cube images
     """
     try:
-        cube_image_bytes = _read_cube_images(images)
-        hsv_values = process_image_files(cube_image_bytes)
+        cube_image_bytes = await _read_cube_images(images)
+        hsv_values = get_hsv_debug_values(cube_image_bytes)
         return HSVResponse(hsv_values)
 
     except ValueError as e:

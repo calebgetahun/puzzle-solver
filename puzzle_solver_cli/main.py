@@ -1,7 +1,6 @@
 import cv2 as cv
-from puzzle_solver_core.src.Cube import Cube
-from puzzle_solver_core.src.image_processing_core import image_bytes_to_colors
-from puzzle_solver_core.src.kociemba_solver_core import solve_cube
+from puzzle_solver_api.services.solver_service import scan_faces_from_images, solve_from_faces, InvalidCubeError
+
 
 FRAME_RATIO_CONSTANT = 0.3
 CUBE_FACE_NOTATION = ["Orange", "Blue", "White", "Red", "Green", "Yellow"]
@@ -71,12 +70,14 @@ def capture():
     cv.destroyAllWindows()
 
 def output_solution(image_byte_list):
-    if len(image_byte_list) != 6:
-        raise ValueError(f"6 images needed to solve cube. Received {len(image_byte_list)} instead")
-    colored_cube = image_bytes_to_colors(image_byte_list)
-    cube = Cube(colored_cube)
-    solution = solve_cube(cube)
-    print(f"Here is your solution: {solution}")
+    try:
+        cube_faces = scan_faces_from_images(image_byte_list)
+        solution = solve_from_faces(cube_faces)
+        print(f"Here is your solution: {solution}")
+    except ValueError as e:
+        print(f"Error: {e}")
+    except InvalidCubeError as e:
+        print(f"Invalid cube state: {e}")
 
 if __name__ == "__main__":
     capture()
